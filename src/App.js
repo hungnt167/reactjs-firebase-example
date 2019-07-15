@@ -1,8 +1,7 @@
 import React from 'react';
-import {AdvancedWordList} from './AdvancedWordList';
-import {WordList} from './WordList';
+import {Dashboard} from './Dashboard';
 import {AddWord} from './AddWord';
-
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import './App.css';
 
@@ -13,23 +12,23 @@ class App extends React.Component {
   render() {
     return (
       <div className="uk-container">
-        <ul className="uk-subnav uk-subnav-pill" uk-switcher="animation: uk-animation-fade">
-            <li><a href="#">Word</a></li>
-            <li><a href="#">Advanced Words</a></li>
-            <li><a href="#">Add New</a></li>
-        </ul>
-
-        <ul className="uk-switcher uk-margin uk-align-center">
-            <li>
-              <WordList/>
-            </li>
-            <li>
-              <AdvancedWordList/>
-            </li>
-             <li>
-              <AddWord/>
-            </li>
-        </ul>
+         <Router>
+            <nav className="uk-navbar-container" uk-navbar="true">
+              <div className="uk-navbar-left">
+                  <ul className="uk-navbar-nav">
+                      <li>
+                        <Link to="/dashboard/">Dashboard</Link>
+                      </li>
+                      <li>
+                        <Link to="/add/">Add Word</Link>
+                      </li>
+                  </ul>
+              </div>
+          </nav>
+            <Route path="/" exact component={Dashboard} />
+            <Route path="/add/" component={AddWord} />
+            <Route path="/dashboard/" component={Dashboard} />
+        </Router>
       </div>
     );
   }

@@ -9,20 +9,24 @@ export class AbstractList extends React.Component {
 
 	    this.state = {
 	      items: [],
-	    }
+	    };
+
+      this.handleClickDelete.bind(this);
 	}
 
   componentDidMount() {
     const wordRef = firebase.database().ref(this.modelName);
     wordRef.on('value', (snapshot) => {
-      let words = snapshot.val();
-      if (typeof(words) === 'object') {
-      	words = Object.values(words);
+      let items = snapshot.val();
+      let keys = false;
+      if (typeof(items) === 'object') {
+      	keys = Object.keys(items);
+        items = Object.values(items);
       }
       let newState = [];
-      words.forEach(({word, meaning}, id) => {
+      items.forEach(({word, meaning}, index) => {
         newState.push({
-          id,
+          id: keys ? keys[index] : index,
           word,
           meaning,
         })
@@ -32,13 +36,22 @@ export class AbstractList extends React.Component {
     });
   }
 
+  handleClickDelete(id) {
+    let ref = firebase.database().ref(this.modelName + '/' + id);
+    ref.remove()
+    .then(res => 
+      console.log('Success!')
+    ).catch(err => alert(err));
+  }
+
   render() {
     return (
     	<div className="uk-child-width-1-2@s" uk-grid="true">
 		    {
-		        this.state.items.map(({word, meaning}, id) => (
+		        this.state.items.map(({word, meaning, id}, key) => (
 		        	<div key={id} >
 				        <div className="uk-card uk-card-default uk-card-small uk-card-body">
+                    <div className="uk-card-badge uk-label uk-label-danger" onClick={() => this.handleClickDelete(id)}>Delete</div>
 				            <h3 className="uk-card-title">{word}</h3>
 				            <p>{meaning}</p>
 				        </div>

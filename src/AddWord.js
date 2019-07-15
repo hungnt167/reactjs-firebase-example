@@ -4,6 +4,7 @@ import firebase from './firebase.js';
 export class AddWord extends React.Component {
 
 	constructor(props) {
+		console.log(props)
 		super(props);
 
 		this.state = {
@@ -11,7 +12,7 @@ export class AddWord extends React.Component {
 				id: '',
 				word: '',
 				meaning: '',
-				isAdvancedWord: false,
+				type: 'words',
 			},
 		};
 
@@ -25,12 +26,12 @@ export class AddWord extends React.Component {
 		ref.push({
 			word,
 			meaning,
-		}, function(error) {
+		}, (error) => {
 			if (error) {
-				console.log(error);
+				alert(error);
 				return;
 			} 
-
+			this.props.history.replace('/');
 			console.log('Data saved successfully!')
 		});
 	}
@@ -53,8 +54,8 @@ export class AddWord extends React.Component {
 	handleFormSubmit(event) {
 		event.preventDefault();
 		let {data} = this.state; 
-		let {word, meaning, isAdvancedWord} = data; 
-		this.writeData(isAdvancedWord ? 'advanced_words': 'words', word, meaning);
+		let {word, meaning, type} = data; 
+		this.writeData(type , word, meaning);
 	}
 
 
@@ -83,11 +84,11 @@ export class AddWord extends React.Component {
 			<label><input 
 			defaultChecked={!this.state.data.isAdvancedWord}
 			onChange={this.handleInputChange}
-			className="uk-radio" type="radio" name="type" value="word"/>Word</label>
+			className="uk-radio" type="radio" name="type" value="words"/>Word</label>
 			<label><input 
 			defaultChecked={this.state.data.isAdvancedWord}
 			onChange={this.handleInputChange}
-			className="uk-radio" type="radio" name="type" value="advanced_word"/>Advanced Word</label>
+			className="uk-radio" type="radio" name="type" value="advanced_words"/>Advanced Word</label>
 			</div>
 
 			<div className="uk-margin">
