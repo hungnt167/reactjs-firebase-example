@@ -4,7 +4,6 @@ import firebase from './firebase.js';
 export class AddWord extends React.Component {
 
 	constructor(props) {
-		console.log(props)
 		super(props);
 
 		this.state = {
@@ -75,7 +74,7 @@ export class AddWord extends React.Component {
 
 			<div className="uk-margin">
 			<textarea 
-			defaultValue={this.state.data.meaning}
+			value={this.state.data.meaning}
 			onChange={this.handleInputChange} 
 			className="uk-textarea" rows="5" name="meaning" placeholder="Meaning"></textarea>
 			</div>

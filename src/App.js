@@ -1,6 +1,7 @@
 import React from 'react';
 import {Dashboard} from './Dashboard';
 import {AddWord} from './AddWord';
+import {EditWord} from './EditWord';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import './App.css';
@@ -27,6 +28,7 @@ class App extends React.Component {
           </nav>
             <Route path="/" exact component={Dashboard} />
             <Route path="/add/" component={AddWord} />
+            <Route path="/edit/:type/:id" component={EditWord} />
             <Route path="/dashboard/" component={Dashboard} />
         </Router>
       </div>
